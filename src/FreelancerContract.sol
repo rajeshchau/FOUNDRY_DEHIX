@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import {IERC20} "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract FreelancerContract {
     using SafeERC20 for IERC20;
@@ -223,7 +223,7 @@ contract FreelancerContract {
         return(payment.freelancerId,payment.projectId,payment.totalAmount,payment.state);
     }
 
-    function createescrow(string memory _escrowid,address[] memory _votingoracle,address _freelancer,address _bussness,string memory _projectid,address _tokenaddress)public{
+    function createEscrow(string memory _escrowid,address[] memory _votingoracle,address _freelancer,address _bussness,string memory _projectid,address _tokenaddress)public{
         require(_votingoracle.length == 1 || _votingoracle.length == 3 || _votingoracle.length == 5,"Number of arbiters must be 1, 3, or 5");
         escrow[_escrowid].escrowid=_escrowid;
         escrow[_escrowid].votingoracles=_votingoracle;
