@@ -1,0 +1,8 @@
+FreelancerContractTest:testAddBussnessToDehix() (gas: 60194)
+FreelancerContractTest:testAddBussnessfuzz(string,address) (runs: 257, μ: 81512, ~: 80946)
+FreelancerContractTest:testAddFreelancer() (gas: 62579)
+FreelancerContractTest:testAddFreelancerFuzz(string,address) (runs: 257, μ: 85997, ~: 106427)
+FreelancerContractTest:testAddFreelancerPayment() (gas: 308341)
+FreelancerContractTest:testAddMilestone() (gas: 236654)
+FreelancerContractTest:testAddMilestoneToDehix() (gas: 236588)
+FreelancerContractTest:testCreateProject() (gas: 156434)
