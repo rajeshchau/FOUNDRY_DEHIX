@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: MIT
+
+// @audit: different version of solidity is used in this file
 pragma solidity ^0.8.28;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -122,7 +124,11 @@ contract FreelancerContract {
         require(msg.sender == escrow[_escrowid].freelanceraddress || isOracles[msg.sender], "Not Authorized!");
         _;
     }
+<<<<<<< HEAD
     // q why there are no require statement in this function  and why it is not checking bussness id existance?
+=======
+    // @audit: access control exploit
+>>>>>>> 14fca3274fab1bd3cc8104e4bfb911b63b54e593
     function addBusinessToDehix(string memory _bussinessid, address _bussinessaddress) public {
         businesses[_bussinessid].businessId = _bussinessid;
         businesses[_bussinessid].businessAddress = _bussinessaddress;
@@ -231,6 +237,7 @@ contract FreelancerContract {
         FreelancerPayment storage payment = projects[_projectId].milestones[_milestoneId].freelancerPayments[_paymentId];
         return (payment.freelancerId, payment.projectId, payment.totalAmount, payment.state);
     }
+<<<<<<< HEAD
 
     //q 
     function createEscrow(
@@ -250,6 +257,17 @@ contract FreelancerContract {
         escrow[_escrowid].freelanceraddress = _freelancer;
         escrow[_escrowid].bussnessadress = _bussness;
         escrow[_escrowid].projectid = _projectid;
+=======
+    // q: who can create escrow
+    // @audit: access control exploit
+    function createEscrow(string memory _escrowid,address[] memory _votingoracle,address _freelancer,address _bussness,string memory _projectid,address _tokenaddress)public{
+        require(_votingoracle.length == 1 || _votingoracle.length == 3 || _votingoracle.length == 5,"Number of arbiters must be 1, 3, or 5");
+        escrow[_escrowid].escrowid=_escrowid;
+        escrow[_escrowid].votingoracles=_votingoracle;
+        escrow[_escrowid].freelanceraddress=_freelancer;
+        escrow[_escrowid].bussnessadress=_bussness;
+        escrow[_escrowid].projectid=_projectid;
+>>>>>>> 14fca3274fab1bd3cc8104e4bfb911b63b54e593
         escrow[_escrowid].depositedamount = 0;
         escrow[_escrowid].tokenaddress = IERC20(_tokenaddress);
         // q can we avoid this loop here ? 
@@ -260,11 +278,19 @@ contract FreelancerContract {
         }
     }
 
+<<<<<<< HEAD
     //q why the user can't deposite multiple times?
     // function depositFundsToEscrow(uint256 _amount, string memory _escrowid) external {
     //     require(msg.sender == escrow[_escrowid].bussnessadress, "Only buyer can deposit funds!");
     //     require(_amount > 0, "Deposit must be greater than zero!");
     //     require(escrow[_escrowid].depositedamount == 0, "Funds already deposited!");
+=======
+    // @audit: DOS attack -> no fallback for faliure
+    function depositFundsToEscrow(uint256 _amount,string memory _escrowid) external {
+        require(msg.sender == escrow[_escrowid].bussnessadress, "Only buyer can deposit funds!");
+        require(_amount > 0, "Deposit must be greater than zero!");
+        require(escrow[_escrowid].depositedamount == 0, "Funds already deposited!");
+>>>>>>> 14fca3274fab1bd3cc8104e4bfb911b63b54e593
 
     //     // Transfer tokens from buyer to this contract securely
     //     escrow[_escrowid].tokenaddress.safeTransferFrom(msg.sender, address(this), _amount);
@@ -273,6 +299,7 @@ contract FreelancerContract {
     //     emit FundsDeposited(msg.sender, _amount);
     // }
 
+<<<<<<< HEAD
     function depositFundsToEscrow(uint256 _amount, string memory _escrowid) external {
     require(msg.sender == escrow[_escrowid].bussnessadress, "Only buyer can deposit funds!");
     require(_amount > 0, "Deposit must be greater than zero!");
@@ -291,6 +318,10 @@ contract FreelancerContract {
         onlyBuyerOrOracle(_escrowid)
         onlyWhenDeposited(_escrowid)
     {
+=======
+    // @audit: Reentrancy issue
+    function releaseEscrowFunds(string memory _escrowid) external onlyBuyerOrOracle(_escrowid) onlyWhenDeposited(_escrowid) {
+>>>>>>> 14fca3274fab1bd3cc8104e4bfb911b63b54e593
         require(_majorityVote(true), "Majority vote required to release funds!");
 
         // Transfer tokens to seller securely
@@ -302,6 +333,8 @@ contract FreelancerContract {
         escrow[_escrowid].depositedamount = 0;
     }
 
+    // @audit: DOS attack
+    // @audit: precision loss
     function _majorityVote(bool release) private view returns (bool) {
         uint256 votes = 0;
         // q can wer use a memory  varriable to store the length of Orecles?
@@ -320,11 +353,16 @@ contract FreelancerContract {
         oracleVotes[msg.sender][release] = true;
     }
 
+<<<<<<< HEAD
     function refundFundsOfEscrow(string memory _escrowid)
         external
         onlySellerOrOrecle(_escrowid)
         onlyWhenDeposited(_escrowid)
     {
+=======
+    // @audit: reentrancy issue
+    function refundFundsOfEscrow(string memory _escrowid) external onlySellerOrOrecle(_escrowid) onlyWhenDeposited(_escrowid) {
+>>>>>>> 14fca3274fab1bd3cc8104e4bfb911b63b54e593
         require(_majorityVote(false), "Majority vote required to refund funds!");
 
         // Transfer tokens back to buyer securely
