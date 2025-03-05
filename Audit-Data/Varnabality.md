@@ -1,3 +1,4 @@
+✅
 ### [H-#] TITLE (Root + Impact)
 Reentrancy attack in releaseEscrowFunds allows funds to be drained
 **Description**
@@ -12,21 +13,8 @@ The function releaseEscrowFunds() calls safeTransfer() before updating state var
  Use the Checks-Effects-Interactions pattern and implement ReentrancyGuard.
 
 
-### [H-#] TITLE (Root + Impact)
 
-**Description**
-The function releaseEscrowFunds() calls safeTransfer() before updating state variables, which can allow a malicious contract to repeatedly call the function and drain funds.
-
-**Impact**
- High - Funds can be stolen through reentrancy.
-
-**Proof of Concepts**
-
-**Recommended mitigation**
- Use the Checks-Effects-Interactions pattern and implement ReentrancyGuard.
-
-
-
+✅
 ### [H-#] TITLE (Root + Impact)
  Missing access control in addBusinessToDehix() allows unauthorized business creation
 **Description**
