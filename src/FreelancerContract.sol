@@ -117,7 +117,9 @@ contract FreelancerContract is ReentrancyGuard {
             require(bytes(_businessId).length != 0, "Business ID cannot be empty");
             require(_businessAddress != address(0), "Business address cannot be 0");
 
+            require(bytes(businesses[_businessId].businessId).length == 0, "Business ID already exists");
             businesses[_businessId].businessId = _businessId;
+
             businesses[_businessId].businessAddress = _businessAddress;
             emit BusinessAdded(_businessId, _businessAddress);
         }

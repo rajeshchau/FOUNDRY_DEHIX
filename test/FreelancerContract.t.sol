@@ -56,10 +56,23 @@ contract FreelancerContractTest is Test {
         vm.startPrank(owner);
         freelancerContract.addBusiness("business1", businessAddress);
         vm.stopPrank();
+        vm.startPrank(owner);
+        freelancerContract.addBusiness("business1", businessAddress);
+        vm.stopPrank();
 
         (string memory id, address addr) = freelancerContract.businesses("business1");
         assertEq(id, "business1", "Business ID mismatch");
         assertEq(addr, businessAddress, "Business address mismatch");
+    }
+
+    function testAddBusinessDuplicate() public {
+        vm.startPrank(owner);
+        freelancerContract.addBusiness("business1", businessAddress);
+        
+        // Attempt to add the same business ID again
+        vm.expectRevert("Business ID already exists");
+        freelancerContract.addBusiness("business1", businessAddress);
+        vm.stopPrank();
     }
 
     function testAddMilestone() public {
