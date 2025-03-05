@@ -66,7 +66,7 @@ Duplicate applications in applyToProjectToDehix()
 
 
 
-
+✅
 ### [M-#] TITLE (Root + Impact)
  Inefficient oracle voting logic
 **Description**
@@ -82,7 +82,7 @@ Store Orecles.length in memory for optimized iteration.
 
 
 
-
+✅
 ### [S-#] TITLE (Root + Impact)
 `public` functions not used internally could be marked `external`
 **Description**
