@@ -164,8 +164,10 @@ contract FreelancerContract is ReentrancyGuard {
         function applyToProject(string memory _projectId, string memory _freelancerId) external {
             Project storage project = projects[_projectId];
             require(project.isActive, "Project is not active");
+            require(project.appliedFreelancers[_freelancerId] == 0, "Freelancer has already applied to this project");
             project.appliedFreelancers[_freelancerId] = 1; // Mark freelancer as applied
             project.totalApplications++;
+
         }
 
         function deactivateProject(string memory _projectId) external onlyOwner {
@@ -239,7 +241,9 @@ contract FreelancerContract is ReentrancyGuard {
 
         function _majorityVote(string memory _escrowId, bool release) private view returns (bool) {
             uint256 votes = 0;
-            for (uint256 i = 0; i < escrows[_escrowId].votingOracles.length; i++) {
+            uint256 oracleCount = escrows[_escrowId].votingOracles.length;
+            for (uint256 i = 0; i < oracleCount; i++) {
+
                 if (_oracleVoted(escrows[_escrowId].votingOracles[i], release)) {
                     votes++;
                 }

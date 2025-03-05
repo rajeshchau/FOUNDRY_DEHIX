@@ -31,7 +31,7 @@ High - Unauthorized businesses can be registered, leading to potential fraud.
 
 
 
-
+✅
 ### [M-#] TITLE (Root + Impact)
 Business ID overwrite in addBusinessToDehix()
 
@@ -49,7 +49,7 @@ Business ID overwrite in addBusinessToDehix()
 
 
 
-
+✅
 ### [M-#] TITLE (Root + Impact)
 Duplicate applications in applyToProjectToDehix()
 
